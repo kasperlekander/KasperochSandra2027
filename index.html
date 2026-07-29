@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasper & Sandra 2027</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&display=swap');
+
+  :root{
+    --pine:#4F632D;
+    --pine-deep:#3B4A22;
+    --parchment:#F2EBDA;
+    --parchment-2:#EAE0C7;
+    --rose:#C88A82;
+    --gold:#B08A4E;
+    --sage:#8AA37F;
+    --ink:#241F16;
+    --ink-soft:#4B4536;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--pine);
+    color:var(--parchment);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Texture ---------- */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(255,255,255,0.03), transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(255,255,255,0.025), transparent 45%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .wrap{position:relative; z-index:1; max-width:920px; margin:0 auto; padding:0 24px 80px;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    text-align:center;
+    padding:72px 20px 40px;
+  }
+  .eyebrow{
+    font-family:'Work Sans', sans-serif;
+    font-size:12px;
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    color:var(--sage);
+    margin-bottom:18px;
+  }
+  .names{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(48px, 10vw, 96px);
+    line-height:1;
+    font-weight:500;
+    color:var(--parchment);
+    margin:0;
+  }
+  .names .amp{
+    display:inline-block;
+    font-style:italic;
+    color:var(--rose);
+    font-size:0.75em;
+    padding:0 0.08em;
+  }
+  .date-line{
+    margin-top:22px;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:26px;
+    color:var(--parchment-2);
+    letter-spacing:0.02em;
+  }
+  .sub-line{
+    margin-top:6px;
+    font-size:14px;
+    color:var(--sage);
+    letter-spacing:0.05em;
+  }
+
+  /* Ticket perforation divider */
+  .perf{
+    position:relative;
+    height:28px;
+    margin:44px 0 0;
+    background:
+      radial-gradient(circle at center, var(--pine) 0 5px, transparent 6px) repeat-x;
+    background-size:22px 100%;
+    background-position:center;
+  }
+  .perf::before, .perf::after{
+    content:"";
+    position:absolute;
+    top:50%; transform:translateY(-50%);
+    width:26px; height:26px;
+    background:var(--pine-deep);
+    border-radius:50%;
+  }
+  .perf::before{ left:-13px; }
+  .perf::after{ right:-13px; }
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:sticky; top:0; z-index:20;
+    background:linear-gradient(var(--pine) 85%, transparent);
+    padding:14px 0 10px;
+  }
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:6px 4px;
+    border-bottom:1px solid rgba(242,235,218,0.15);
+    padding-bottom:12px;
+  }
+  .tab-btn{
+    font-family:'Work Sans', sans-serif;
+    font-size:12.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--parchment-2);
+    background:transparent;
+    border:1px solid rgba(242,235,218,0.25);
+    border-radius:999px;
+    padding:9px 16px;
+    cursor:pointer;
+    transition:all .2s ease;
+    white-space:nowrap;
+  }
+  .tab-btn:hover{ border-color:var(--rose); color:var(--parchment); }
+  .tab-btn.active{
+    background:var(--rose);
+    border-color:var(--rose);
+    color:var(--pine-deep);
+    font-weight:600;
+  }
+  .tab-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  /* ---------- Cards ---------- */
+  .panel{ display:none; animation:rise .35s ease; }
+  .panel.active{ display:block; }
+  @keyframes rise{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  .card{
+    background:var(--parchment);
+    color:var(--ink);
+    border-radius:4px;
+    padding:38px 34px;
+    margin:26px 0;
+    position:relative;
+    box-shadow:0 18px 40px rgba(0,0,0,0.28);
+  }
+  /* ticket notch corners */
+  .card::before, .card::after{
+    content:"";
+    position:absolute; top:-13px;
+    width:26px; height:26px;
+    background:var(--pine);
+    border-radius:50%;
+  }
+  .card::before{ left:-13px; display:none; }
+  .card::after{ right:-13px; display:none; }
+
+  .card h2{
+    font-family:'Cormorant Garamond', serif;
+    font-size:32px;
+    font-weight:600;
+    margin:0 0 4px;
+    color:var(--pine);
+  }
+  .card .tag{
+    display:inline-block;
+    font-size:11px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:18px;
+  }
+  .card p{ line-height:1.7; color:var(--ink-soft); margin:0 0 14px; }
+  .card p:last-child{ margin-bottom:0; }
+
+  .divider{ border:none; border-top:1px dashed rgba(36,31,22,0.25); margin:22px 0; }
+
+  .fact-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+    gap:18px;
+    margin-top:6px;
+  }
+  .fact{
+    border-left:3px solid var(--rose);
+    padding:4px 0 4px 14px;
+  }
+  .fact .k{ font-size:11px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); }
+  .fact .v{ font-family:'Cormorant Garamond', serif; font-size:22px; color:var(--pine); margin-top:2px; }
+
+  .timeline{ list-style:none; padding:0; margin:0; }
+  .timeline li{
+    display:flex; gap:18px;
+    padding:12px 0;
+    border-bottom:1px dashed rgba(36,31,22,0.18);
+  }
+  .timeline li:last-child{ border-bottom:none; }
+  .timeline .time{
+    font-family:'Cormorant Garamond', serif;
+    font-size:20px; font-weight:600;
+    color:var(--rose);
+    min-width:78px;
+  }
+
+  ul.bullets{ margin:8px 0 0; padding-left:20px; color:var(--ink-soft); line-height:1.7; }
+  ul.bullets li{ margin-bottom:6px; }
+
+  .note{
+    background:rgba(138,163,127,0.14);
+    border:1px solid rgba(138,163,127,0.35);
+    border-radius:4px;
+    padding:14px 16px;
+    font-size:14px;
+    color:var(--ink-soft);
+    margin-top:16px;
+  }
+  .note b{ color:var(--pine); }
+
+  /* ---------- Form ---------- */
+  .field{ margin-bottom:18px; }
+  .field label{
+    display:block; font-size:12.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--pine); margin-bottom:6px; font-weight:600;
+  }
+  .field input[type=text], .field input[type=email], .field textarea{
+    width:100%; padding:11px 13px;
+    border:1px solid rgba(36,31,22,0.25);
+    border-radius:3px;
+    font-family:'Work Sans', sans-serif;
+    font-size:14.5px;
+    background:#fff;
+    color:var(--ink);
+  }
+  .field textarea{ resize:vertical; min-height:70px; }
+  .radio-row{ display:flex; gap:14px; flex-wrap:wrap; }
+  .radio-row label{
+    display:flex; align-items:center; gap:7px;
+    font-size:14.5px; text-transform:none; letter-spacing:0; font-weight:400;
+    color:var(--ink-soft); cursor:pointer;
+    border:1px solid rgba(36,31,22,0.22);
+    padding:9px 15px; border-radius:999px;
+  }
+  .radio-row input{ accent-color:var(--rose); }
+  .submit-btn{
+    background:var(--pine);
+    color:var(--parchment);
+    border:none;
+    padding:13px 30px;
+    border-radius:999px;
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:background .2s ease;
+  }
+  .submit-btn:hover{ background:var(--pine-deep); }
+  .submit-btn:disabled{ opacity:0.6; cursor:default; }
+  .form-msg{ margin-top:14px; font-size:14px; }
+  .form-msg.ok{ color:#3B6B33; }
+  .form-msg.err{ color:#a13d3d; }
+
+  footer{
+    text-align:center; padding:40px 20px 10px;
+    font-size:12px; letter-spacing:0.1em; color:rgba(242,235,218,0.4);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .panel{ animation:none; }
+    html{ scroll-behavior:auto; }
+  }
+
+  @media (max-width:560px){
+    .card{ padding:28px 20px; }
+    .names{ font-size:15vw; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Vi gifter oss</div>
+    <h1 class="names">Kasper<span class="amp">&amp;</span>Sandra</h1>
+    <div class="date-line">3 juli 2027</div>
+    <div class="sub-line">kasperochsandra2027</div>
+  </div>
+
+  <div class="perf"></div>
+
+  <nav>
+    <div class="tabs" id="tabBar"></div>
+  </nav>
+
+  <div id="panels"></div>
+
+  <footer>Med kärlek, Kasper &amp; Sandra — 2027</footer>
+</div>
+
+<script>
+const panels = [
+  {
+    id: "hem",
+    label: "Hem",
+    render: () => `
+      <div class="card">
+        <span class="tag">Inbjudan</span>
+        <h2>Välkomna till vår bröllopsdag</h2>
+        <p>Vi är så glada att få dela vår dag med er. Här hittar ni all information ni behöver — datum, plats, klädkod och hur ni OSA:ar. Bläddra bland flikarna ovan för mer.</p>
+        <hr class="divider">
+        <div class="fact-grid">
+          <div class="fact"><div class="k">Datum</div><div class="v">3 juli 2027</div></div>
+          <div class="fact"><div class="k">Vigsel</div><div class="v">Kl. 15:00</div></div>
+          <div class="fact"><div class="k">Plats för vigseln</div><div class="v">Askersund Landskyrka<br><span style="font-size:14px; font-weight:400;">Lindbovägen 1, 696 30 Askersund</span></div></div>
+          <div class="fact"><div class="k">Klädkod</div><div class="v">Sommarfin</div></div>
+          <div class="fact"><div class="k">OSA senast</div><div class="v">31 december 2026</div></div>
+          <div class="fact"><div class="k">Barn</div><div class="v">Barnfritt bröllop</div></div>
+        </div>
+        <div class="note"><b>Klädkod: Sommarfin.</b> Vi ser gärna att ni klär upp er i kostym, klänning eller motsvarande festklädsel. Färgvalet är helt fritt – välj gärna det ni känner er fina och bekväma i!</div>
+        <div class="note"><b>Hur ni OSA:ar:</b> Gå till fliken <em>OSA</em> ovan och fyll i formuläret senast 31 december 2026. Har ni frågor om allergier, specialkost eller annat — kontakta oss gärna direkt, se fliken <em>Kontakt</em>.</div>
+      </div>
+    `
+  },
+  {
+    id: "program",
+    label: "Program för dagen",
+    render: () => `
+      <div class="card">
+        <span class="tag">Schema</span>
+        <h2>Så ser dagen ut</h2>
+        <p>Ett litet schema så ni vet vad som händer när.</p>
+        <ul class="timeline">
+          <li><span class="time">15:00</span><span>Vigsel — Askersund Landskyrka</span></li>
+          <li><span class="time">16:15</span><span>Transport till festlokal</span></li>
+          <li><span class="time">16:30</span><span>Mingel vid Stjernsunds slott</span></li>
+          <li><span class="time">18:00</span><span>Middag — Stallet vid Stjernsunds slott, med tal och underhållning</span></li>
+          <li><span class="time">22:00</span><span>Fest &amp; dans till sent</span></li>
+        </ul>
+        <div class="note"><b>Hemresa:</b> Bussar går från festlokalen kl. 23:00, 00:00 och 01:30. Se fliken <em>Boende &amp; resa</em> för mer om transport.</div>
+        <div class="note"><b>Väder:</b> Vigseln sker inomhus i kyrkan, men mingel kan ske utomhus oavsett väder — ta gärna med paraply om prognosen lutar åt regn.</div>
+      </div>
+    `
+  },
+  {
+    id: "praktiskt",
+    label: "Praktisk info",
+    render: () => `
+      <div class="card">
+        <span class="tag">Bra att veta</span>
+        <h2>Praktisk information</h2>
+        <p><b>Vigsel:</b> Askersund Landskyrka, Lindbovägen 1, 696 30 Askersund</p>
+        <p><b>Festlokal:</b> Stallet vid Stjernsunds slott, 696 92 Askersund</p>
+        <p><b>Hur man tar sig dit:</b> Det är ungefär 7 minuters bilresa från hotellet/kyrkan till festlokalen.</p>
+        <hr class="divider">
+        <p><b>Fotografering &amp; sociala medier:</b> Vi har en professionell fotograf under vigseln, så vi ber er vänta med egna bilder tills efter vigseln. Under festen finns en QR-kod som ni gärna får ladda upp era bilder till.</p>
+        <div class="note"><b>Tips:</b> Ha med bekväma skor till dansgolvet — kvällen blir lång!</div>
+      </div>
+    `
+  },
+  {
+    id: "boende",
+    label: "Boende & resa",
+    render: () => `
+      <div class="card">
+        <span class="tag">Övernattning &amp; transport</span>
+        <h2>Boende och hur ni tar er hit</h2>
+        <p><b>Rekommenderade hotell:</b></p>
+        <ul class="bullets">
+          <li><b>Best Western Hotel Norra Vättern</b> — Klockarbacken 3, 696 30 Askersund. Ange bokningskoden <b>"Kasper &amp; Sandra bröllop"</b> när ni bokar.</li>
+        </ul>
+        <div class="note"><b>Boka i tid:</b> Rummen är reserverade åt oss till <b>1 januari 2027</b> — därefter kan de släppas, så boka gärna innan dess!</div>
+        <hr class="divider">
+        <p><b>Transport:</b></p>
+        <ul class="bullets">
+          <li>Buss: Vi ordnar buss från kyrkan till festlokalen efter vigseln.</li>
+          <li>Hemresa: Tre bussavgångar går från festlokalen — kl. 23:00, 00:00 och 01:30.</li>
+          <li>Bil: Det är ca 7 minuter med bil mellan hotellet/kyrkan och festlokalen.</li>
+          <li>Parkering: Finns både utanför hotellet och utanför festlokalen.</li>
+        </ul>
+      </div>
+    `
+  },
+  {
+    id: "osa",
+    label: "OSA",
+    render: () => `
+      <div class="card">
+        <span class="tag">Svara senast 31 december 2026</span>
+        <h2>OSA — meddela oss om ni kommer</h2>
+        <p>Fyll gärna i formuläret nedan — det hjälper oss enormt mycket med planeringen! Ni kan också höra av er direkt till vår OSA-kontakt, se fliken <em>Kontakt</em>.</p>
+        <form id="rsvpForm">
+          <div class="field">
+            <label for="rname">Namn (ange alla i sällskapet)</label>
+            <input type="text" id="rname" required placeholder="T.ex. Anna Andersson + partner">
+          </div>
+          <div class="field">
+            <label>Kommer ni?</label>
+            <div class="radio-row">
+              <label><input type="radio" name="attending" value="Ja" required> Ja, vi kommer</label>
+              <label><input type="radio" name="attending" value="Nej"> Nej, vi kan tyvärr inte</label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="rallergy">Allergier / specialkost</label>
+            <textarea id="rallergy" placeholder="T.ex. laktosintolerant, vegetarian, nötallergi..."></textarea>
+          </div>
+          <div class="field">
+            <label for="rmusic">Musikönskemål till dansgolvet</label>
+            <input type="text" id="rmusic" placeholder="En eller två låtar som vi måste spela!">
+          </div>
+          <button type="submit" class="submit-btn" id="rsvpBtn">Skicka OSA via mejl</button>
+          <div class="form-msg" id="rsvpMsg"></div>
+        </form>
+        <div class="note"><b>Så funkar det:</b> När ni klickar "Skicka OSA via mejl" öppnas ert e-postprogram med ett färdigskrivet mejl till Kasper &amp; Sandra — kolla bara att det verkligen skickas iväg därifrån. Fungerar inte e-postprogrammet på er enhet går det förstås lika bra att mejla oss direkt.</div>
+      </div>
+    `,
+    afterRender: () => {
+      const form = document.getElementById('rsvpForm');
+      if(!form) return;
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const msg = document.getElementById('rsvpMsg');
+        const name = document.getElementById('rname').value.trim();
+        const attending = form.querySelector('input[name=attending]:checked')?.value || '';
+        const allergy = document.getElementById('rallergy').value.trim();
+        const music = document.getElementById('rmusic').value.trim();
+
+        if(!name || !attending){
+          msg.textContent = 'Fyll i namn och om ni kommer innan ni skickar.';
+          msg.className = 'form-msg err';
+          return;
+        }
+
+        const subject = 'OSA - Bröllop 2027';
+        const bodyLines = [
+          'Namn: ' + name,
+          'Kommer: ' + attending,
+          'Allergier / specialkost: ' + (allergy || '-'),
+          'Musikönskemål: ' + (music || '-')
+        ];
+        const body = bodyLines.join('\n');
+        const to = 'kasper.lekander@gmail.com,sandra.e.hakansson@hotmail.com';
+        const mailto = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+
+        window.location.href = mailto;
+        msg.textContent = 'Ert e-postprogram öppnas nu — kontrollera bara att mejlet skickas iväg. 🤍';
+        msg.className = 'form-msg ok';
+      });
+    }
+  },
+  {
+    id: "presenter",
+    label: "Presenter",
+    render: () => `
+      <div class="card">
+        <span class="tag">Önskelista</span>
+        <h2>Presenter</h2>
+        <p>Den finaste presenten vi kan få är att ni vill fira vår stora dag tillsammans med oss. Er närvaro betyder allra mest!</p>
+        <p>Om ni ändå önskar ge oss en gåva har vi satt ihop en önskelista. För att undvika dubbla presenter ber vi er att kontakta vår toastmaster, som håller i presentlistan och hjälper till att samordna.</p>
+        <p>Har ni frågor är ni varmt välkomna att höra av er till vår toastmaster.</p>
+      </div>
+    `
+  },
+  {
+    id: "tal",
+    label: "Tal & spex",
+    render: () => `
+      <div class="card">
+        <span class="tag">Underhållning</span>
+        <h2>Tal och spex</h2>
+        <p>Vill ni hålla tal, sjunga eller bjuda på ett spex under middagen är vi jätteglada för det!</p>
+        <p><b>Toastmaster/toastmadame:</b> Cristoffer Mendoza och Victoria Stråberg</p>
+        <p><b>Anmäl ert tal:</b> Hör av er till Cristoffer Mendoza på [telefon/e-post] senast [datum], så får talen plats i schemat.</p>
+      </div>
+    `
+  },
+  {
+    id: "faq",
+    label: "FAQ",
+    render: () => `
+      <div class="card">
+        <span class="tag">Vanliga frågor</span>
+        <h2>Frågor och svar</h2>
+        <p><b>Får jag ta med barn?</b><br>Vi har valt att göra dagen till en barnfri dag.</p>
+        <p><b>Får jag ta med partner/plus one?</b><br>På grund av platsbrist har vi valt att endast bjuda de som står på den inbjudan ni har mottagit.</p>
+        <p><b>Vad händer om det regnar?</b><br>Vigseln sker inomhus i kyrkan, men mingel kan ske utomhus oavsett väder — ta gärna med paraply om prognosen lutar åt regn.</p>
+        <p><b>Var kan jag parkera?</b><br>Det finns parkering både utanför hotellet och utanför festlokalen.</p>
+        <p><b>Får jag ta bilder under vigseln?</b><br>Under vigseln vill vi låta vår fantastiska fotograf ansvara för att fånga händelsen, så vi ber er vänta med egna bilder till efteråt.</p>
+        <p><b>Hur glada skulle vi vara om du kan komma och fira vår stora dag?</b><br>Vi är otroligt glada om så är fallet.</p>
+      </div>
+    `
+  },
+  {
+    id: "kontakt",
+    label: "Kontakt",
+    render: () => `
+      <div class="card">
+        <span class="tag">Hör av er</span>
+        <h2>Kontakt</h2>
+        <p><b>OSA, allergier &amp; specialkost:</b> Kasper Lekander, 072-176 64 11, kasper.lekander@gmail.com</p>
+        <p><b>Toastmaster/toastmadame:</b> Cristoffer Mendoza och Victoria Stråberg, [telefon], [e-post]</p>
+        <p><b>Kasper:</b> kasper.lekander@gmail.com</p>
+        <p><b>Sandra:</b> sandra.e.hakansson@hotmail.com</p>
+      </div>
+    `
+  }
+];
+
+const tabBar = document.getElementById('tabBar');
+const panelsEl = document.getElementById('panels');
+
+panels.forEach((p, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'tab-btn' + (i === 0 ? ' active' : '');
+  btn.textContent = p.label;
+  btn.dataset.id = p.id;
+  btn.addEventListener('click', () => showPanel(p.id));
+  tabBar.appendChild(btn);
+
+  const div = document.createElement('div');
+  div.className = 'panel' + (i === 0 ? ' active' : '');
+  div.id = 'panel-' + p.id;
+  div.innerHTML = p.render();
+  panelsEl.appendChild(div);
+});
+
+panels.forEach(p => { if(p.afterRender) p.afterRender(); });
+
+function showPanel(id){
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.id === id));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
